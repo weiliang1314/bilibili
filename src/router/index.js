@@ -18,7 +18,19 @@ const routes = [{
         name: 'about',
         component: () =>
             import ('../views/about.vue')
-    }
+    },
+    {
+        path: '/longin',
+        name: 'longin',
+        component: () =>
+            import ('../views/longin.vue')
+    },
+    {
+        path: '/user',
+        name: 'user',
+        component: () =>
+            import ('../views/user.vue')
+    },
 ]
 
 const router = new VueRouter({

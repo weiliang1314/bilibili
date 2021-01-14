@@ -1,5 +1,5 @@
 <template>
-  <div class="btns">
+  <div class="btns" @click='regclick'>
     <div class="btn">{{btntext}}</div>
   </div>
 </template>
@@ -7,7 +7,12 @@
 <script>
 export default {
   name:'longinbtn',
-  props:['btntext']
+  props:['btntext'],
+  methods:{
+    regclick(){
+      this.$emit('regsubmit')
+    }
+  }
 
 }
 </script>
