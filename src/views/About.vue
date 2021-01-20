@@ -46,6 +46,11 @@ export default {
         const res=await this.$http.post('/register',this.model);
         console.log(res)
         this.$msg.fail(res.data.msg)
+        localStorage.setItem('token',res.data.objtoken)
+        localStorage.setItem('id',res.data.id)
+        setTimeout(()=>{
+          this.$router.push('/user')
+        },1000)
       }else{
         this.$msg.fail('格式不正确')
       }
