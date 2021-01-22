@@ -3,7 +3,9 @@
     <div id="nav">
      
     </div>
-    <router-view/>
+    <keep-alive><router-view v-if="$route.meta.keepalive==true"/></keep-alive>
+    <router-view v-if="!$route.meta.keepalive"></router-view>
+    
   </div>
 </template>
 

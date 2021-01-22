@@ -1,5 +1,5 @@
 <template>
-  <div @click="$router.push()">
+  <div @click="$router.push('/article/'+dateitem.id)">
   <div>
    <div class="imgs"> <img src='../../assets/bei.jpg' style="width:100%">
     <div class='video'><img src="../../assets/b.png"><span class=''>11万</span></div>

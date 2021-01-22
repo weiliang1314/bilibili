@@ -11,7 +11,10 @@ const routes = [{
         path: '/home',
         name: 'home',
         component: () =>
-            import ('../views/home')
+            import ('../views/home'),
+        meta: {
+            keepalive: true,
+        }
     },
     {
         path: '/about',
@@ -42,6 +45,12 @@ const routes = [{
         meta: {
             istoken: true
         }
+    },
+    {
+        path: '/article/:id',
+        name: 'article',
+        component: () =>
+            import ('../views/article.vue')
     },
 ]
 
