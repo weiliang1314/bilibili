@@ -30,21 +30,29 @@
  
 </div>
 <articledata v-for='(item,index) in commendmodel' :key="index" :commendmodel="item"></articledata>
+<articlecomment :datalength='lens'></articlecomment>
+<comment @lengths='len=>lens=len'></comment>
   </div>
 </template>
 
 <script>
 import navbar from '../components/common/navbar'
 import articledata from '../components/common/articledata'
+import articlecomment from '../components/conect/articlecomment'
+import comment from '../components/conect/comment'
   export default {
     name:'aeticle',
     data(){
       return{ model:null,activeNames: ['0'],
-      commendmodel:null,}
+      commendmodel:null,
+      myuser:null,
+      lens:null}
     },
     components:{
       navbar,
-      articledata
+      articledata,
+      articlecomment,
+      comment,
     },
     methods:{
       //获取详情页数据
@@ -59,11 +67,13 @@ import articledata from '../components/common/articledata'
         this.commendmodel=res.data;
         console.log(res)
 
-      }
+      },
+      
     },
     created(){
       this.articledata();
       this.commendata();
+      
     },
     //在详情页点击推荐的视频跳转
     watch:{
