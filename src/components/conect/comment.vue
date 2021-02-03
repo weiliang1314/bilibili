@@ -8,11 +8,11 @@
      <p><span v-if='item.userinfo'>{{item.userinfo.name}}</span>
      <span v-else>用户没有名字</span>
      <span>{{item.comment_date}}</span></p>
-     <div>{{item.comment_content}}</div>
+     <div>{{item.comment_content}}<span class="publiss" @click='publiss(item.comment_id)'>回复</span></div>
    </div>
    
    </div>
-   <commenttitle  :commentchild='item.child'></commenttitle></div>
+   <commenttitle  :commentchild='item.child' @posts='publiss'></commenttitle></div>
     
   
   </div>
@@ -56,6 +56,12 @@ import commenttitle from './commenttitle'
 }
 return fn(null)
       },
+      //二级评论
+      publiss(id){
+        this.$emit('pubclick',id)
+
+
+      }
     },
     created(){
       this.commentdata();
@@ -93,6 +99,11 @@ return fn(null)
     }
     div{
       font-size: 2.533vw;
+      .publiss{
+         position: absolute;
+        color:  palevioletred;
+        right: 10px;
+      }
     }
   }}
 }

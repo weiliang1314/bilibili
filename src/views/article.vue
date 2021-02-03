@@ -30,8 +30,8 @@
  
 </div>
 <articledata v-for='(item,index) in commendmodel' :key="index" :commendmodel="item"></articledata>
-<articlecomment :datalength='lens'></articlecomment>
-<comment @lengths='len=>lens=len'></comment>
+<articlecomment :datalength='lens' @postcomment='postcomment' ref="commentipt"></articlecomment>
+<comment @lengths='len=>lens=len' @pubclick='pubclick' ref='commentpubliss'></comment>
   </div>
 </template>
 
@@ -46,7 +46,13 @@ import comment from '../components/conect/comment'
       return{ model:null,activeNames: ['0'],
       commendmodel:null,
       myuser:null,
-      lens:null}
+      lens:null,
+      postcom:{
+        comment_content:'',
+        comment_date:'',
+        parent_id:null,
+        article_id:null,
+      }}
     },
     components:{
       navbar,
@@ -68,6 +74,37 @@ import comment from '../components/conect/comment'
         console.log(res)
 
       },
+      //数据双向绑定后，获取写入的评论
+      async postcomment(res){
+        console.log(res)
+        const date=new Date();
+        let m=date.getMonth()+1;
+        let d=date.getDate();
+        if(m<10)m='0'+m;
+        if(d<10)d='0'+d;
+        let str=m+'-'+d;
+      this.postcom.comment_content=res;
+      this.postcom.comment_date=str;
+      this.postcom.article_id=this.$route.params.id;
+      console.log(this.postcom)
+      //获取评论发表
+     const result=await this.$http.post('/comment_post/'+localStorage.getItem('id'),this.postcom)
+     console.log(result)
+     //发表完评论后刷新数据
+     this.$refs.commentpubliss.commentdata();
+     this.postcom.parent_id=null;
+     if(result.status==200){
+       this.$msg.fail('评论发布成功')
+     }
+
+
+      },
+      //给一级回复评论
+      pubclick(id){
+        this.postcom.parent_id=id;
+        //父组件用子组件的方法
+        this.$refs.commentipt.focused()
+      }
       
     },
     created(){

@@ -7,7 +7,7 @@
 <div class="commentimg">
   <img v-if="myuser" :src="myuser.user_img">
   <img v-else src="../../assets/tou.jpg" alt="还没登录">
-  <input type="text" placeholder="说点什么吧" >
+  <input v-model="content" type="text" placeholder="说点什么吧"  ref='postipt'>
   <button @click="focus">发表</button>
 </div>
   </div>
@@ -20,6 +20,7 @@
     data(){
       return{
         myuser:null,
+        content:'',
       }
     },
     methods:{
@@ -35,15 +36,22 @@
        if(!this.myuser&&!localStorage.getItem('token')&&!localStorage.getItem('id')){
          this.$msg.fail('请先登录');
          return;
-
        }
+       this.$emit('postcomment',this.content)
+       //回复一级评论后把输入框置为空
+       this.content=''
+      },
+      //二级评论点击回复后，聚焦到评论填写
+      focused(){
+        this.$refs.postipt.focus()
       }
     },
     created(){
       if(localStorage.getItem('token')){
       this.myuserinfo();}
 
-    }
+    },
+    
   }
 </script>
 

@@ -7,12 +7,13 @@
      <p><span v-if='item.userinfo'>{{item.userinfo.name}}</span>
      <span v-else>用户没有名字</span>
      <span>{{item.comment_date}}</span></p>
-     <div v-if='!temp'>{{item.comment_content}}</div>
-      <div v-else><span style="color:#478ef0">回复@{{item.parent_user_info.name}}</span>{{item.comment_content}}</div>
-   </div><!--vue组件的递归-->
+     <div v-if='!temp'>{{item.comment_content}}<span class="publiss" @click="postitemcomment(item.comment_id)">回复</span></div>
+      <div v-else><span style="color:#478ef0">回复@{{item.parent_user_info.name}}</span>{{item.comment_content}}<span class="publiss" @click="postitemcomment(item.comment_id)">回复</span></div>
+   </div>
   
    </div>
-    <commenttitle :commentchild='item.child' :temp='true'></commenttitle></div>
+   <!--vue组件的递归-->
+    <commenttitle :commentchild='item.child' :temp='true' @postchild='postchild'></commenttitle></div>
    
   </div>
 </template>
@@ -20,13 +21,28 @@
 <script>
   export default {
     name:'commenttitle',
-    props:['commentchild','temp']
+    props:['commentchild','temp'],
+    methods:{
+      //回复二级三级...评论，使用递增
+      postitemcomment(id){
+        this.$emit('postchild',id);
+        //二级评论点击回复
+        this.$emit('posts',id);
+
+      },
+      postchild(id){
+        this.postitemcomment(id);
+        this.$emit('posts',id)
+
+      }
+    }
   }
 </script>
 
 <style lang="less" scoped>
 .commenttitle{
-  padding: 0 2vw;
+  position: relative;
+  padding: 0 0vw;
   .comments{
     display: flex;
    
@@ -52,6 +68,12 @@
     }
     div{
       font-size: 2.533vw;
+      
+      .publiss{
+        position: absolute;
+        color:  palevioletred;
+        right: 10px;
+      }
     }
   }}
 }
